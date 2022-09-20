@@ -1,11 +1,11 @@
 /*
 *****************************************************************************
 @file         Deneyap_BasincOlcer.cpp
-@mainpage     Deneyap Barometer MS563702BA03 Arduino library source file
+@mainpage     Deneyap Barometer MS5637-02BA03 Arduino library source file
 @maintainer   RFtek Electronics <techsupport@rftek.com.tr>
-@version      v1.0.0
-@date         June 23, 2022
-@brief        Includes functions to control Deneyap Barometer MS563702BA03
+@version      v1.0.1
+@date         September 20, 2022
+@brief        Includes functions to control Deneyap Barometer MS5637-02BA03
               Arduino library
 
 Library includes:
@@ -23,8 +23,9 @@ Library includes:
  * @retval
  **/
 inline static int8_t _endTransmission(bool stop = true) {
-    int8_t res = Wire.endTransmission(stop);
+    Wire.endTransmission();
 #ifdef __AVR__
+    int8_t res = Wire.endTransmission(stop);
     return res;
 #else
     return 0;
@@ -115,8 +116,7 @@ bool AtmosphericPressure::getTempAndPressure(float *temperature, float *pressure
     if (temp >= 2000) {
         /* High temperature */
         t2 = 5 * (dt * dt) / (1LL << 38);
-    }
-    else {
+    } else {
         /* Low temperature */
         t2 = 3 * (dt * dt) / (1LL << 33);
     }
